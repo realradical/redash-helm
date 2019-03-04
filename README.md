@@ -1,4 +1,5 @@
 # redash-helm GKE Installation
+Follow the steps below to deploy redash multi-nodes on GKE
 
 ## Create a GKE cluster
 
