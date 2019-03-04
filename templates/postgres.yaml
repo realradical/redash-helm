@@ -15,7 +15,7 @@ spec:
     run: {{ .Values.postgres.name }}
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ .Values.postgres.name }}
   labels:
@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: {{ .Values.postgres.name }}
-        image: postgres:9.5.6-alpine
+        image: postgres:9.5.15-alpine
         resources:
           limits:
             cpu: 100m
@@ -66,8 +66,15 @@ spec:
           initialDelaySeconds: 60
           timeoutSeconds: 5
         volumeMounts:
-{{ toYaml .Values.commonVolume.volumeMounts | indent 8 }}
-          mountPath: {{ .Values.commonVolume.mountPathForPostgres }}
-          subPath: postgres
-      volumes:
-{{ toYaml .Values.commonVolume.volumes | indent 6 }}
+          - mountPath: /var/lib/postgresql/data
+            name: redash-postgres-data
+            subPath: postgres
+  volumeClaimTemplates:
+    - metadata:
+        name: redash-postgres-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi

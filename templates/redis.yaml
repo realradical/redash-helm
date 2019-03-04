@@ -15,7 +15,7 @@ spec:
     run: {{ .Values.redis.name }}
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: {{ .Values.redis.name }}
   labels:
@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: {{ .Values.redis.name }}
-        image: redis:3.0-alpine
+        image: redis:4-alpine
         resources:
           limits:
             cpu: 50m
@@ -50,3 +50,15 @@ spec:
             command: ["sh", "-c", "redis-cli ping"]
           initialDelaySeconds: 10
           periodSeconds: 3
+        volumeMounts:
+          - mountPath: /data
+            name: redash-redis-data
+  volumeClaimTemplates:
+    - metadata:
+        name: redash-redis-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
