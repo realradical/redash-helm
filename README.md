@@ -6,7 +6,7 @@ Follow the steps below to deploy redash multi-nodes on GKE
 ## Configure kubectl in CLI
 ```
 gcloud config set project {project-id}
-gcloud container clusters get-credentials {cluster-id} --zone {zone-id}
+gcloud container clusters get-credentials {cluster-id} --zone {zone-id} --project {project-id}
 ```
 ## Install helm chart
 ```
