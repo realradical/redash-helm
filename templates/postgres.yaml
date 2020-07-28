@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
       - name: {{ .Values.postgres.name }}
-        image: postgres:9.5.15-alpine
+        image: postgres:9.6-alpine
         resources:
           limits:
             cpu: 100m

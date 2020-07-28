@@ -13,7 +13,7 @@ redis:
 
 redash:
   name: redash
-  image: redash/redash:6.0.0.b8537
+  image: redash/redash:8.0.2.b37747
   envFrom:
   - configMapRef:
       name: env
